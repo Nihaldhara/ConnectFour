@@ -61,34 +61,8 @@ int main(int argc, char *argv[])
     //Lancement de la partie
     Game* game = Game_New();
 
-
-    // Boucle de jeu
-    /*while (Game_GetState(game) == GAME_IN_PROGRESS)
-    {
-        printf("----------------------------------------\n");
-        printf("Tour du joueur %d\n\n", Game_GetPlayerID(game));
-
-        Game_Print(game);
-        printf("\n");
-
-        // Choix de la colonne
-        int column = 0;
-        do
-        {
-            printf("Choisissez votre colonne (entre 0 et 6) : ");
-            int res = scanf("%d", &column);
-        } while (!Game_CanPlayAt(game, column));
-
-        // Action du joueur
-        Game_PlayTurn(game, column);
-        printf("\n");
-    }
-    Game_Print(game);
-    Game_Delete(game);*/
-
     //--------------------------------------------------------------------------
     // Boucle de rendu
-
 
     // Position et taille du plateau
     float boardx = 150.0f;
@@ -109,20 +83,20 @@ int main(int argc, char *argv[])
     float p2w = 70.0f;
     float p2h = 70.0f;
     //Initialisation des cases
-    CellState cells[GRID_W][GRID_H] = { CELL_EMPTY };
-    SDL_FRect slots[GRID_W][GRID_H];
-    for (int i = 0; i < GRID_W; i++)
+    CellState cells[GRID_H][GRID_W] = { CELL_EMPTY };
+    SDL_FRect slots[GRID_H][GRID_W];
+    for (int i = 0; i < GRID_H; i++)
     {
-        for (int j = 0; j < GRID_H; j++)
+        for (int j = 0; j < GRID_W; j++)
         {
-            slots[i][j].x = originx + GAP_WIDTH * i;
-            slots[i][j].y = originy - GAP_HEIGHT * j;
+            slots[i][j].x = originx + GAP_WIDTH * j;
+            slots[i][j].y = originy - GAP_HEIGHT * i;
             slots[i][j].w = 105.0f;
             slots[i][j].h = 105.0f;
         }
     }
 
-    while (true)
+    while (game->state == GAME_IN_PROGRESS)
     {
         // Met à jour le temps
         Timer_Update(g_time);
@@ -151,47 +125,44 @@ int main(int argc, char *argv[])
         dstP1.y = p1y;
         dstP1.w = p1w;
         dstP1.h = p1h;
-        SDL_RenderCopyF(renderer, assets->textureP1, NULL, &dstP1);
+        if(game->playerID == 1)
+            SDL_RenderCopyF(renderer, assets->textureP1, NULL, &dstP1);
         
         SDL_FRect dstP2;
         dstP2.x = p2x;
         dstP2.y = p2y;
         dstP2.w = p2w;
         dstP2.h = p2h;
-        SDL_RenderCopyF(renderer, assets->textureP2, NULL, &dstP2);
+        if(game->playerID == 2)
+            SDL_RenderCopyF(renderer, assets->textureP2, NULL, &dstP2);
 
         //Pointeur de la souris
         SDL_Point mouse;
         mouse.x = input->mouseXPosition;
         mouse.y = input->mouseYPosition;
         //Affichage de chaque pion
-        for (int i = 0; i < GRID_W; i++)
+        for (int i = 0; i < GRID_H; i++)
         {
-            for (int j = 0; j < GRID_H; j++)
+            for (int j = 0; j < GRID_W; j++)
             {
                 SDL_FRect* display = &(slots[i][j]);
                 //Pion fantome qui suit la souris
-                if (SDL_PointInFRect(&mouse, display) && cells[i][j] == CELL_EMPTY)
+                if (SDL_PointInFRect(&mouse, display) && game->grid[i][j] == 0)
                 {
-                    if (input->leftClick && cells[i][j] == CELL_EMPTY && Game_CanPlayAt(game, i))
+                    if (input->leftClick && game->grid[i][j] == 0 && Game_CanPlayAt(game, j))
                     {
-                        if(game->playerID == 1)
-                            cells[i][j] = CELL_P1;
-                        else
-                            cells[i][j] = CELL_P2;
-                        Game_PlayTurn(game, i);
-                        printf("Placed in : %d, %d\n",i , j);
+                        Game_PlayTurn(game, j);
                     }
-                    if (game->playerID == 1)
+                    /**/if (game->playerID == 1)
                         SDL_RenderCopyF(renderer, assets->textureYellowPiece, NULL, display);
                     else if (game->playerID == 2)
                         SDL_RenderCopyF(renderer, assets->textureRedPiece, NULL, display);
                 }
 
                 //Pions posés par les joueurs
-                if(cells[i][j] == CELL_P1)
+                if (game->grid[i][j] == 1)
                     SDL_RenderCopyF(renderer, assets->textureYellowPiece, NULL, display);
-                else if(cells[i][j] == CELL_P2)
+                else if(game->grid[i][j] == 2)
                     SDL_RenderCopyF(renderer, assets->textureRedPiece, NULL, display);
             }
         }
