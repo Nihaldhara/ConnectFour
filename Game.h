@@ -47,7 +47,11 @@ typedef enum GameState_e
     /// @brief Indique que la partie est remportée par le joueur 2.
     GAME_P2_WON = 2,
     /// @brief Indique que la partie s'est terminée sur une égalitée.
-    GAME_IS_TIED
+    GAME_IS_TIED,
+    /// @brief Indique que le joueur est dans le menu
+    GAME_MENU,
+    /// @brief Indique que le joueur est dans les options
+    GAME_OPTIONS
 } GameState;
 
 /// @brief Structure représentant une partie de puissance 4.

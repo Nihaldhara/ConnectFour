@@ -48,49 +48,49 @@ void Game_UpdateState(Game* self)
             && ((self->grid[i + 2][j] == 1) && (self->grid[i + 3][j] == 1)))
             {
                 self->state = GAME_P1_WON;
-                return;
+                //return;
             }
             else if (((self->grid[i][j] == 2) && (self->grid[i + 1][j] == 2)) 
             && ((self->grid[i + 2][j] == 2) && (self->grid[i + 3][j] == 2)))
             {
                 self->state = GAME_P2_WON;
-                return;
+                //return;
             }
             else if (((self->grid[i][j] == 1) && (self->grid[i][j + 1] == 1)) 
             && ((self->grid[i][j + 2] == 1) && (self->grid[i][j + 3] == 1)))
             {
                 self->state = GAME_P1_WON;
-                return;
+                //return;
             }
             else if (((self->grid[i][j] == 2) && (self->grid[i][j + 1] == 2)) 
             && ((self->grid[i][j + 2] == 2) && (self->grid[i][j + 3] == 2)))
             {
                 self->state = GAME_P2_WON;
-                return;
+                //return;
             }
             else if (((self->grid[i][j] == 1) && (self->grid[i + 1][j + 1] == 1)) 
             && ((self->grid[i + 2][j + 2] == 1) && (self->grid[i + 3][j + 3] == 1)))
             {
                 self->state = GAME_P1_WON;
-                return;
+                //return;
             }
             else if (((self->grid[i][j] == 2) && (self->grid[i + 1][j + 1] == 2)) 
             && ((self->grid[i + 2][j + 2] == 2) && (self->grid[i + 3][j + 3] == 2)))
             {
                 self->state = GAME_P2_WON;
-                return;
+                //return;
             }
             else if (((self->grid[i][j] == 1) && (self->grid[i + 1][j - 1] == 1)) 
             && ((self->grid[i + 2][j - 2] == 1) && (self->grid[i + 3][j - 3] == 1)))
             {
                 self->state = GAME_P1_WON;
-                return;
+                //return;
             }
             else if (((self->grid[i][j] == 2) && (self->grid[i + 1][j - 1] == 2)) 
             && ((self->grid[i + 2][j - 2] == 2) && (self->grid[i + 3][j - 3] == 2)))
             {
                 self->state = GAME_P2_WON;
-                return;
+                //return;
             }
         }
         if (!Game_CanPlayAt(self, i));
@@ -99,7 +99,8 @@ void Game_UpdateState(Game* self)
     if (nbrcoloneplein == GRID_W)
         self->state = GAME_IS_TIED;
 
-    self->state = GAME_IN_PROGRESS;
+    if(self->state != 1 && self->state != 2)
+        self->state = GAME_IN_PROGRESS;
 }
 
 bool Game_CanPlayAt(Game* self, int column)

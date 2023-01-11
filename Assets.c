@@ -20,6 +20,17 @@ Assets *Assets_New(SDL_Renderer *renderer)
         { &self->textureRedPiece, "../Assets/red_piece.png" },
         { &self->textureP1, "../Assets/player1.png"},
         { &self->textureP2, "../Assets/player2.png" },
+        { &self->textureVictP1, "../Assets/player1wins.png" },
+        { &self->textureVictP2, "../Assets/player2wins.png" },
+        { &self->textureAIvsAI, "../Assets/AIvsAI.png" },
+        { &self->texturePvsAI, "../Assets/PvsAI.png" },
+        { &self->textureP1vsP2, "../Assets/P1vsP2.png" },
+        { &self->textureExit, "../Assets/exit.png" },
+        { &self->textureOptions, "../Assets/options.png" },
+        { &self->textureConnect4, "../Assets/connect4.png" },
+        { &self->textureContinue, "../Assets/continue.png" },
+        { &self->textureP1wins, "../Assets/P1wins.png" },
+        { &self->textureP2wins, "../Assets/P2wins.png" },
     };
     int texSpecCount = sizeof(texSpecs) / sizeof(TextureSpec);
 
@@ -54,6 +65,17 @@ void Assets_Delete(Assets *self)
         &self->textureRedPiece,
         &self->textureP1,
         &self->textureP2,
+        &self->textureVictP1,
+        &self->textureVictP2,
+        &self->textureAIvsAI,
+        &self->texturePvsAI,
+        &self->textureP1vsP2,
+        &self->textureExit,
+        &self->textureOptions,
+        &self->textureConnect4,
+        &self->textureContinue,
+        &self->textureP1wins,
+        &self->textureP2wins,
     };
     int count = sizeof(texPointers) / sizeof(SDL_Texture **);
 
